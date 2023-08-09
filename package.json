@@ -1,0 +1,41 @@
+{
+  "name": "canvas-gamepad",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/c.umd.cjs",
+  "module": "./dist/canvas-gamepad.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/canvas-gamepad.js",
+      "require": "./dist/canvas-gamepad.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "@types/lodash.merge": "^4.6.7",
+    "@types/node": "^20.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.43.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^3.0.0-beta.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "lodash.merge": "^4.6.2",
+    "ts-node": "^10.9.1",
+    "vite-tsconfig-paths": "^4.2.0"
+  }
+}

@@ -1,0 +1,1 @@
+import Gamepad from "@features/gamepad";
