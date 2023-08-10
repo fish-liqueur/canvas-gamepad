@@ -1,6 +1,7 @@
 import Gamepad from "@features/gamepad";
 import { CanvasGamepadOptions } from "@features/gamepad"
 import getOptions from "./lib/get-options";
+import addMaterialFonts from "./ model/add-material-fonts";
 
 export default class CanvasGamepad {
     rootElement: HTMLDivElement;
@@ -14,9 +15,14 @@ export default class CanvasGamepad {
         }
 
         console.log('app ', callback);
-        
+        // addMaterialFonts().then(() => {
+        //     const options = getOptions(userOptions);
+        //     this.gamepad = new Gamepad(this.rootElement, callback, options);
+        // });
+        addMaterialFonts();
+
         const options = getOptions(userOptions);
-        this.gamepad = new Gamepad(this.rootElement, callback, options);
+            this.gamepad = new Gamepad(this.rootElement, callback, options);
     }
 }
 
