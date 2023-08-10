@@ -68,8 +68,6 @@ export default class Gamepad {
             this.clearView();
             this.buttons = this.renderButtons(this.options, button);
         }
-        console.log('handleActive ', button, event);
-        
     }
 
     @autobind
@@ -82,7 +80,6 @@ export default class Gamepad {
             this.buttons = this.renderButtons(this.options);
 
         }
-        console.log('handleInactive ', button, event);
     }
 
 
