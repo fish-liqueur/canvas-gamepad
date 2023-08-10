@@ -2,6 +2,7 @@ import Button from "@entities/button";
 import autobind from "@shared/lib/autobind";
 import { CanvasGamepadOptions } from "./types";
 import gamepadButtonsConfig from "../const/gamepad-config";
+import { debounce } from "lodash";
 
 export default class Gamepad {
     rootElement: HTMLDivElement;
@@ -37,8 +38,10 @@ export default class Gamepad {
             // we're good to use it
 
             this.buttons = this.renderButtons(options);
-            this.canvas.addEventListener('touchstart', this.handleActive);
-            this.canvas.addEventListener('touchend', this.handleInactive);
+            this.canvas.addEventListener('touchstart', debounce(this.handleActive, 150, {leading: true}));
+            this.canvas.addEventListener('mousedown', debounce(this.handleActive, 150, {leading: true}));
+            this.canvas.addEventListener('touchend', debounce(this.handleInactive, 150, {leading: true}));
+            this.canvas.addEventListener('mouseup', debounce(this.handleInactive, 150, {leading: true}));
         }).catch(console.error);
     }
 
@@ -65,6 +68,8 @@ export default class Gamepad {
             this.clearView();
             this.buttons = this.renderButtons(this.options, button);
         }
+        console.log('handleActive ', button, event);
+        
     }
 
     @autobind
@@ -77,13 +82,11 @@ export default class Gamepad {
             this.buttons = this.renderButtons(this.options);
 
         }
+        console.log('handleInactive ', button, event);
     }
 
 
     private getBtnKey(event: MouseEvent | TouchEvent) {
-        // if (event instanceof TouchEvent) {
-            // console.log('getBtnKey 111 ', event);
-        // }
         const x = event instanceof MouseEvent ? event.offsetX : event.touches[0]?.clientX - this.canvas.getBoundingClientRect().left || event.changedTouches[0]?.clientX - this.canvas.getBoundingClientRect().left;
         const y = event instanceof MouseEvent ? event.offsetY : event.touches[0]?.clientY - this.canvas.getBoundingClientRect().top || event.changedTouches[0]?.clientY - this.canvas.getBoundingClientRect().left;
         return this.buttons.reduce((result: null | Button, button: Button): Button | null => {
