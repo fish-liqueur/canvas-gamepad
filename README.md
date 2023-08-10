@@ -1,7 +1,7 @@
 # Canvas Gamepad
 This library is basically a 5-button gamepad for touchscreens.
 
-Once I wrote a [Tetris game](https://github.com/fish-liqueur/tetris) to practice Topescript and Canvas. The first controller I started to support was, of course, the keyboard. But what about touchscreens?
+Once I wrote a [Tetris game](https://github.com/fish-liqueur/tetris) to practice Topescript and Canvas.
 <br>
 In Tetris, you need five buttons. Three arrows, turn the figure and pause. While testing the game, I used the keyboard - classic. But what about mobile devices? They have touchscreens and don't have a keyboard.
 <br>
