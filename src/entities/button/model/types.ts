@@ -27,4 +27,7 @@ export type ButtonSystemSettings = {
     iconSize: number,
     iconCoordinates: [number, number],
     iconName: string,
+    key: ButtonKey;
 }
+
+export type ButtonKey = 'up' | 'right' | 'down' | 'left' | 'play-pause';

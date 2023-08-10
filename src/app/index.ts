@@ -12,8 +12,6 @@ export default class CanvasGamepad {
         if (!this.rootElement) {
             throw new Error(`Cannot find a container with id "${rootId}"!`);
         }
-
-        console.log('app ', callback);
         
         const options = getOptions(userOptions);
         this.gamepad = new Gamepad(this.rootElement, callback, options);

@@ -34,11 +34,12 @@ export default class Gamepad {
         material_font.load().then(() => {
             // we're good to use it
 
-            this.buttons = renderButtons(options, this.context, this.canvasSide);
             this.canvas.addEventListener('touchstart', debounce(this.handleActive, 150, {leading: true}));
             this.canvas.addEventListener('mousedown', debounce(this.handleActive, 150, {leading: true}));
             this.canvas.addEventListener('touchend', debounce(this.handleInactive, 150, {leading: true}));
             this.canvas.addEventListener('mouseup', debounce(this.handleInactive, 150, {leading: true}));
+
+            this.buttons = renderButtons(options, this.context, this.canvasSide);
         }).catch(console.error);
     }
 

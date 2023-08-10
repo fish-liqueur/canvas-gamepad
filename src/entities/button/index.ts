@@ -1,5 +1,5 @@
 import Button from "./model";
-import { ButtonStyleKit, ButtonDefinition, ButtonSystemSettings } from "./model/types"
+import { ButtonStyleKit, ButtonDefinition, ButtonSystemSettings, ButtonKey } from "./model/types"
 
 export default Button;
-export type { ButtonStyleKit, ButtonDefinition, ButtonSystemSettings };
+export type { ButtonStyleKit, ButtonDefinition, ButtonSystemSettings, ButtonKey };
