@@ -1,33 +1,30 @@
 import Button from "@entities/button";
 import autobind from "@shared/lib/autobind";
 import { CanvasGamepadOptions } from "./types";
-import gamepadButtonsConfig from "../const/gamepad-config";
 import { debounce } from "lodash";
+import getButtonByEvent from "./get-button-by-event";
+import renderButtons from "./render-buttons";
 
 export default class Gamepad {
-    rootElement: HTMLDivElement;
     canvasSide: number;
     canvas: HTMLCanvasElement;
     context: CanvasRenderingContext2D;
     buttons: Button[] = [];
     buttonActive: Button | null = null;
 
-
     callback: (key: string) => void;
 
     private options: CanvasGamepadOptions;
 
 
-    constructor(rootId: string, callback: () => void, options: CanvasGamepadOptions) {
+    constructor(rootElement: HTMLDivElement, callback: () => void, options: CanvasGamepadOptions) {
         this.options = options;
-        // TODO: move rootElement to app
-        this.rootElement = document.getElementById(rootId)! as HTMLDivElement;
-        this.canvasSide = this.rootElement.offsetWidth > this.rootElement.offsetHeight ? this.rootElement.offsetHeight : this.rootElement.offsetWidth;
+        this.canvasSide = rootElement.offsetWidth > rootElement.offsetHeight ? rootElement.offsetHeight : rootElement.offsetWidth;
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
         this.canvas.width = this.canvasSide;
         this.canvas.height = this.canvasSide;
         this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.rootElement.appendChild(this.canvas);
+        rootElement.appendChild(this.canvas);
         this.callback = callback;
 
         const material_font = new FontFace('material-icons',
@@ -37,7 +34,7 @@ export default class Gamepad {
         material_font.load().then(() => {
             // we're good to use it
 
-            this.buttons = this.renderButtons(options);
+            this.buttons = renderButtons(options, this.context, this.canvasSide);
             this.canvas.addEventListener('touchstart', debounce(this.handleActive, 150, {leading: true}));
             this.canvas.addEventListener('mousedown', debounce(this.handleActive, 150, {leading: true}));
             this.canvas.addEventListener('touchend', debounce(this.handleInactive, 150, {leading: true}));
@@ -49,48 +46,26 @@ export default class Gamepad {
         this.context.clearRect(0, 0, this.canvasSide, this.canvasSide);
     }
 
-    private renderButtons(options: CanvasGamepadOptions, activeButton: Button | null = null): Button[] {
-        const { buttons, style } = options;
-        const buttonsRendered: Button[] = [];
-
-        buttons.forEach((button, i): void => {
-            const styleSelected = button.key === activeButton?.key ? style.active : style.general;
-            buttonsRendered.push(new Button(button, this.context, styleSelected, this.canvasSide, gamepadButtonsConfig[i]));
-        })
-        return buttonsRendered;
-    }
-
     @autobind
     private handleActive(event: MouseEvent | TouchEvent) {
-        const button = this.getBtnKey(event);
+        const button = getButtonByEvent(event, this.canvas, this.context, this.buttons);
         if (button) {
             this.buttonActive = button;
             this.clearView();
-            this.buttons = this.renderButtons(this.options, button);
+            this.buttons = renderButtons(this.options, this.context, this.canvasSide, button);
+            this.callback(button.key);
         }
     }
 
     @autobind
     private handleInactive(event: MouseEvent | TouchEvent) {
-        const button = this.buttonActive || this.getBtnKey(event);
+        const button = this.buttonActive || getButtonByEvent(event, this.canvas, this.context, this.buttons);
 
         if (button) {
+            this.buttonActive = null;
             this.buttons = [];
             this.clearView();
-            this.buttons = this.renderButtons(this.options);
-
+            this.buttons = renderButtons(this.options, this.context, this.canvasSide);
         }
-    }
-
-
-    private getBtnKey(event: MouseEvent | TouchEvent) {
-        const x = event instanceof MouseEvent ? event.offsetX : event.touches[0]?.clientX - this.canvas.getBoundingClientRect().left || event.changedTouches[0]?.clientX - this.canvas.getBoundingClientRect().left;
-        const y = event instanceof MouseEvent ? event.offsetY : event.touches[0]?.clientY - this.canvas.getBoundingClientRect().top || event.changedTouches[0]?.clientY - this.canvas.getBoundingClientRect().left;
-        return this.buttons.reduce((result: null | Button, button: Button): Button | null => {
-            if (button.path && this.context.isPointInPath(button.path, x, y)) {
-                result = button;
-            }
-            return result;
-        }, null)
     }
 }
