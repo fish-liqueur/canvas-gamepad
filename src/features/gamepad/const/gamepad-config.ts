@@ -1,18 +1,18 @@
 import { ButtonSystemSettings } from '@entities/button';
 
 const gamepadButtonsConfig: {
-    up: ButtonSystemSettings,
+    rotate: ButtonSystemSettings,
     right: ButtonSystemSettings,
     down: ButtonSystemSettings,
     left: ButtonSystemSettings,
     'play-pause': ButtonSystemSettings,
 } = {
-    up: {
+    rotate: {
         radius: [-135, -45],
         iconSize: 15,
         iconCoordinates: [50, 25],
         iconName: 'sync',
-        key: 'up',
+        key: 'rotate',
     }, 
     right: {
         radius: [-45, 45],
