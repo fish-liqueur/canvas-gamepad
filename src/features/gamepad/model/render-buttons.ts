@@ -1,19 +1,18 @@
 import Button from "@entities/button";
-import { CanvasGamepadOptions } from "./types";
+import { ButtonStyleKit } from "@entities/button"
 import gamepadButtonsConfig from "../const/gamepad-config";
 import { ButtonKey } from '@entities/button';
 
 export default function renderButtons(
-    options: CanvasGamepadOptions,
+    options: ButtonStyleKit,
     context: CanvasRenderingContext2D,
     canvasSide: number,
     activeButton: Button | null = null
 ): Button[] {
-    const { buttons, style } = options;
+    const style = options;
     const buttonsRendered: Button[] = [];
-    console.log('renderButtons ', buttons);
     
-    Object.values(buttons)
+    Object.values(gamepadButtonsConfig)
     .sort((buttonA, buttonB) => {
         if (buttonA.key === activeButton?.key) {
           return 1;

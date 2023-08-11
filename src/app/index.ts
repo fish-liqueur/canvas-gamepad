@@ -1,12 +1,12 @@
 import Gamepad from "@features/gamepad";
-import { CanvasGamepadOptions } from "@features/gamepad"
+import { ButtonStyleKit } from "@entities/button"
 import getOptions from "./lib/get-options";
 
 export default class CanvasGamepad {
     rootElement: HTMLDivElement;
     gamepad: Gamepad;
 
-    constructor(rootId: string, callback: () => void, userOptions?: Partial<CanvasGamepadOptions>) {
+    constructor(rootId: string, callback: () => void, userOptions?: Partial<ButtonStyleKit>) {
         this.rootElement = document.getElementById(rootId)! as HTMLDivElement;
 
         if (!this.rootElement) {
@@ -18,4 +18,4 @@ export default class CanvasGamepad {
     }
 }
 
-export type { CanvasGamepadOptions }; 
+export type { ButtonStyleKit }; 

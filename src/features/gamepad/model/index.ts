@@ -1,9 +1,9 @@
 import Button from "@entities/button";
 import autobind from "@shared/lib/autobind";
-import { CanvasGamepadOptions } from "./types";
 import { debounce } from "lodash";
 import getButtonByEvent from "./get-button-by-event";
 import renderButtons from "./render-buttons";
+import { ButtonStyleKit } from "@entities/button"
 
 export default class Gamepad {
     canvasSide: number;
@@ -14,10 +14,10 @@ export default class Gamepad {
 
     callback: (key: string) => void;
 
-    private options: CanvasGamepadOptions;
+    private options: ButtonStyleKit;
 
 
-    constructor(rootElement: HTMLDivElement, callback: () => void, options: CanvasGamepadOptions) {
+    constructor(rootElement: HTMLDivElement, callback: () => void, options: ButtonStyleKit) {
         this.options = options;
         this.canvasSide = rootElement.offsetWidth > rootElement.offsetHeight ? rootElement.offsetHeight : rootElement.offsetWidth;
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;

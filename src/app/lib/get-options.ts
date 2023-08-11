@@ -1,14 +1,11 @@
 import { merge } from 'lodash';
-import { CanvasGamepadOptions } from "@features/gamepad";
-import { buttonsDefault, styleDefault } from "./../const/defaults";
+import { ButtonStyleKit } from "@entities/button"
+import { styleDefault } from "./../const/defaults";
 
-export default function getOptions(userOptions: Partial<CanvasGamepadOptions> | undefined): CanvasGamepadOptions {
-    const options: CanvasGamepadOptions = {
-        buttons: buttonsDefault,
-        style: styleDefault,
-    };
+export default function getOptions(userOptions: Partial<ButtonStyleKit> | undefined): ButtonStyleKit {
+    const options: ButtonStyleKit = styleDefault;
 
     merge(options, userOptions || {});
 
-    return <CanvasGamepadOptions>options;
+    return <ButtonStyleKit>options;
 }
