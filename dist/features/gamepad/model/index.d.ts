@@ -8,7 +8,7 @@ export default class Gamepad {
     buttonActive: Button | null;
     callback: (key: string) => void;
     private options;
-    constructor(rootElement: HTMLDivElement, callback: () => void, options: ButtonStyleKit);
+    constructor(rootElement: HTMLDivElement, callback: (key: string) => void, options: ButtonStyleKit);
     private clearView;
     private handleActive;
     private handleInactive;

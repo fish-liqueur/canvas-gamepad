@@ -1,6 +1,6 @@
 import { ButtonSystemSettings } from '@entities/button';
 declare const gamepadButtonsConfig: {
-    up: ButtonSystemSettings;
+    rotate: ButtonSystemSettings;
     right: ButtonSystemSettings;
     down: ButtonSystemSettings;
     left: ButtonSystemSettings;

@@ -12,7 +12,6 @@ export type ButtonStyleKit = {
     active: ButtonStyle;
 };
 export type ButtonState = 'general' | 'active';
-export type SideButtonPositions = 'top-right' | 'bottom-right' | 'top-left' | 'bottom-left';
 export type RadialButtonRadius = [number, number];
 export type ButtonSystemSettings = {
     radius: [number, number] | null;
@@ -21,4 +20,4 @@ export type ButtonSystemSettings = {
     iconName: string;
     key: ButtonKey;
 };
-export type ButtonKey = 'up' | 'right' | 'down' | 'left' | 'play-pause';
+export type ButtonKey = 'rotate' | 'right' | 'down' | 'left' | 'play-pause';

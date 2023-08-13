@@ -12,7 +12,10 @@
       "@features/*": ["./src/features/*"],
       "@entities/*": ["./src/entities/*"],
       "@shared/*": ["./src/shared/*"],
+      "canvas-gamepad": ["node_modules/canvas-gamepad"]
   },
+  "baseUrl": ".",
+
 
     /* Bundler mode */
     "moduleResolution": "bundler",

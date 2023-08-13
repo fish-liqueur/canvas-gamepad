@@ -1,8 +1,8 @@
 import Gamepad from "@features/gamepad";
 import { ButtonStyleKit } from "@entities/button";
-export default class CanvasGamepad {
+export declare class CanvasGamepad {
     rootElement: HTMLDivElement;
     gamepad: Gamepad;
-    constructor(rootId: string, callback: () => void, userOptions?: Partial<ButtonStyleKit>);
+    constructor(rootId: string, callback: (key: string) => void, userOptions?: Partial<ButtonStyleKit>);
 }
 export type { ButtonStyleKit };

@@ -1,9 +1,8 @@
 import Button from "@entities/button";
 import autobind from "@shared/lib/autobind";
-import { debounce } from "lodash";
 import getButtonByEvent from "./get-button-by-event";
 import renderButtons from "./render-buttons";
-import { ButtonStyleKit } from "@entities/button"
+import { ButtonStyleKit } from "@entities/button";
 
 export default class Gamepad {
     canvasSide: number;
@@ -17,7 +16,7 @@ export default class Gamepad {
     private options: ButtonStyleKit;
 
 
-    constructor(rootElement: HTMLDivElement, callback: () => void, options: ButtonStyleKit) {
+    constructor(rootElement: HTMLDivElement, callback: (key: string) => void, options: ButtonStyleKit) {
         this.options = options;
         this.canvasSide = rootElement.offsetWidth > rootElement.offsetHeight ? rootElement.offsetHeight : rootElement.offsetWidth;
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
@@ -34,10 +33,23 @@ export default class Gamepad {
         material_font.load().then(() => {
             // we're good to use it
 
-            this.canvas.addEventListener('touchstart', debounce(this.handleActive, 150, {leading: true}));
-            this.canvas.addEventListener('mousedown', debounce(this.handleActive, 150, {leading: true}));
-            this.canvas.addEventListener('touchend', debounce(this.handleInactive, 150, {leading: true}));
-            this.canvas.addEventListener('mouseup', debounce(this.handleInactive, 150, {leading: true}));
+            let isActiveEventHandlerRunning = false;
+            const debounceInterval = 150; 
+
+            const handleActiveDebounced = (event: MouseEvent | TouchEvent) => {
+                if (!isActiveEventHandlerRunning) {
+                    isActiveEventHandlerRunning = true;
+                    this.handleActive(event);
+                    setTimeout(() => {
+                        isActiveEventHandlerRunning = false;
+                    }, debounceInterval);
+                  }
+            };
+
+            this.canvas.addEventListener('touchstart',handleActiveDebounced);
+            this.canvas.addEventListener('mousedown', handleActiveDebounced);
+            this.canvas.addEventListener('touchend', this.handleInactive);
+            this.canvas.addEventListener('mouseup', this.handleInactive);
 
             this.buttons = renderButtons(options, this.context, this.canvasSide);
         }).catch(console.error);
@@ -50,6 +62,7 @@ export default class Gamepad {
     @autobind
     private handleActive(event: MouseEvent | TouchEvent) {
         const button = getButtonByEvent(event, this.canvas, this.context, this.buttons);
+
         if (button) {
             this.buttonActive = button;
             this.clearView();
